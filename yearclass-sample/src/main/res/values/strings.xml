@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">YearClass Sample</string>
+    <string name="title_tag">This device\'s year class:</string>
+</resources>
