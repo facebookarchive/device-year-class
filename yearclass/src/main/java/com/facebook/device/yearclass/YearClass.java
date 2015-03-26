@@ -38,7 +38,11 @@ public class YearClass {
    */
   public static int get(Context c) {
     if (mYearCategory == null) {
-      mYearCategory = categorizeByYear(c);
+      synchronized(YearClass.class) {
+        if (mYearCategory == null) {
+          mYearCategory = categorizeByYear(c);
+        }
+      }
     }
     return mYearCategory;
   }
