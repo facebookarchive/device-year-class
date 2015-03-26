@@ -1,6 +1,6 @@
 # ![Devices by Year Class](https://github.com/facebook/device-year-class/raw/master/docs/images/logo_trans_square.png) Device Year Class
 
-Device Year Class is an Adroid library that implements a simple algorithm that maps
+Device Year Class is an Android library that implements a simple algorithm that maps
 a device's RAM, CPU cores, and clock speed to the year where those combination
 of specs were considered high end. This allows a developer to easily modify
 application behavior based on the capabilities of the phone's hardware.
