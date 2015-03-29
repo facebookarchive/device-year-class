@@ -75,4 +75,15 @@ public class YearClassTest {
 
     return yearClass;
   }
+
+  @Test
+  public void testBuildingFromInt() {
+    assertEquals(YearClass.CLASS_2008, YearClass.fromIntValue(2008));
+    assertEquals(YearClass.CLASS_2009, YearClass.fromIntValue(2009));
+    assertEquals(YearClass.CLASS_2010, YearClass.fromIntValue(2010));
+    assertEquals(YearClass.CLASS_2011, YearClass.fromIntValue(2011));
+    assertEquals(YearClass.CLASS_2012, YearClass.fromIntValue(2012));
+    assertEquals(YearClass.CLASS_2013, YearClass.fromIntValue(2013));
+    assertEquals(YearClass.CLASS_2014, YearClass.fromIntValue(2014));
+  }
 }
