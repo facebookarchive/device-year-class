@@ -29,13 +29,20 @@ public enum YearClass {
   /**
    * @return a YearClass constructed from the integer value, or CLASS_UNKNOWN if not found.
    */
-  private static YearClass fromIntValue(int intValue) {
+  public static YearClass fromIntValue(int intValue) {
     for (YearClass yearClass : YearClass.values()) {
       if (intValue == yearClass.mIntValue) {
         return yearClass;
       }
     }
     return CLASS_UNKNOWN;
+  }
+
+  /**
+   * @return a integer value associated with the YearClass.  For example, CLASS_2008 will return 2008.
+   */
+  public int getIntValue() {
+    return mIntValue;
   }
 
   /**
@@ -54,7 +61,7 @@ public enum YearClass {
    *
    * @return the YearClass in which top-of-the-line phones had the same number of processors as this phone.
    */
-  public static YearClass fromNumberOfCores() {
+  private static YearClass fromNumberOfCores() {
     int cores = DeviceInfo.getNumberOfCPUCores();
     if (cores < 1) return CLASS_UNKNOWN;
     if (cores == 1) return CLASS_2008;

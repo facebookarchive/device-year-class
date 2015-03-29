@@ -32,29 +32,30 @@ public class MainActivity extends Activity {
     mYearClass = (TextView) findViewById(R.id.year_class);
   }
 
-  private class GetOrComputeYearClass extends AsyncTask<Void, Void, Integer> {
+  private class GetOrComputeYearClass extends AsyncTask<Void, Void, YearClass> {
 
     @Override
-    protected Integer doInBackground(Void... voids) {
-      int yearClass = YearClass.CLASS_UNKNOWN;
+    protected YearClass doInBackground(Void... voids) {
+      YearClass yearClass = YearClass.CLASS_UNKNOWN;
       SharedPreferences prefs = getSharedPreferences(PREF_FILE, 0);
       if (prefs.contains(PREF_NAME)) {
-        yearClass = prefs.getInt(PREF_NAME, YearClass.CLASS_UNKNOWN);
+        yearClass = YearClass.fromIntValue(prefs.getInt(PREF_NAME,
+                YearClass.CLASS_UNKNOWN.getIntValue()));
       }
       //Try again if device was previously unknown.
       if (yearClass == YearClass.CLASS_UNKNOWN) {
         yearClass = YearClass.get(getApplicationContext());
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(PREF_NAME, yearClass);
+        editor.putInt(PREF_NAME, yearClass.getIntValue());
         editor.apply();
       }
       return yearClass;
     }
 
     @Override
-    protected void onPostExecute(Integer yearClass) {
+    protected void onPostExecute(YearClass yearClass) {
       //update UI
-      mYearClass.setText(Integer.toString(yearClass));
+      mYearClass.setText(Integer.toString(yearClass.getIntValue()));
     }
   }
 }
