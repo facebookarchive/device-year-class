@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'robolectric'
 
 repositories {
     jcenter()
@@ -11,12 +12,22 @@ android {
     defaultConfig {
         applicationId "com.facebook.device.yearclass.sample"
         minSdkVersion 11
-        targetSdkVersion 21
+        targetSdkVersion 18
         versionCode 1
         versionName "1.0"
     }
+
+    sourceSets {
+        androidTest.setRoot('src/test')
+    }
+
 }
 
 dependencies {
     compile project(':yearclass')
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile('org.robolectric:robolectric:2.4') {
+        exclude module: 'commons-logging'
+        exclude module: 'httpclient'
+    }
 }
