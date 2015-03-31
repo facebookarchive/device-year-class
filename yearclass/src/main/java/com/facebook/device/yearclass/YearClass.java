@@ -159,7 +159,7 @@ public class YearClass {
    */
   private static int getRamYear(Context c) {
     long totalRam = DeviceInfo.getTotalMemory(c);
-    if (totalRam == DeviceInfo.DEVICEINFO_UNKNOWN) return CLASS_UNKNOWN;
+    if (totalRam <= 0) return CLASS_UNKNOWN;
     if (totalRam <= 192 * MB) return CLASS_2008;
     if (totalRam <= 290 * MB) return CLASS_2009;
     if (totalRam <= 512 * MB) return CLASS_2010;
