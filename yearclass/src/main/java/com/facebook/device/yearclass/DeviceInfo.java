@@ -44,6 +44,8 @@ public class DeviceInfo {
       cores = new File("/sys/devices/system/cpu/").listFiles(CPU_FILTER).length;
     } catch (SecurityException e) {
       cores = DEVICEINFO_UNKNOWN;
+    } catch (NullPointerException e) {
+      cores = DEVICEINFO_UNKNOWN;
     }
     return cores;
   }
