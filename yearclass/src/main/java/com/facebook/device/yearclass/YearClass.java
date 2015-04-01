@@ -26,7 +26,7 @@ public class YearClass {
   private static final long MB = 1024 * 1024;
   private static final int MHZ_IN_KHZ = 1000;
 
-  private static Integer mYearCategory;
+  private volatile static Integer mYearCategory;
 
   /**
    * Entry Point of YearClass. Extracts YearClass variable with memoizing.
