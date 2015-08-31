@@ -22,8 +22,9 @@ public class YearClass {
   public static final int CLASS_2012 = 2012;
   public static final int CLASS_2013 = 2013;
   public static final int CLASS_2014 = 2014;
+  public static final int CLASS_2015 = 2015;
 
-  private static final long MB = 1024 * 1024;
+  private static final long MB = 1048576l; // = 1024 * 1024
   private static final int MHZ_IN_KHZ = 1000;
 
   private volatile static Integer mYearCategory;
@@ -134,7 +135,8 @@ public class YearClass {
     if (clockSpeedKHz <= 1220 * MHZ_IN_KHZ) return CLASS_2011;
     if (clockSpeedKHz <= 1520 * MHZ_IN_KHZ) return CLASS_2012;
     if (clockSpeedKHz <= 2020 * MHZ_IN_KHZ) return CLASS_2013;
-    return CLASS_2014;
+    if (clockSpeedKHz <= 2520 * MHZ_IN_KHZ) return CLASS_2014;
+    return CLASS_2015;
   }
 
   /**
@@ -166,6 +168,7 @@ public class YearClass {
     if (totalRam <= 1024 * MB) return CLASS_2011;
     if (totalRam <= 1536 * MB) return CLASS_2012;
     if (totalRam <= 2048 * MB) return CLASS_2013;
-    return CLASS_2014;
+    if (totalRam <= 3072 * MB) return CLASS_2014;
+    return CLASS_2015;
   }
 }
