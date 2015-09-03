@@ -57,7 +57,7 @@ public class DeviceInfo {
       //regex is slow, so checking char by char.
       if (path.startsWith("cpu")) {
         for (int i = 3; i < path.length(); i++) {
-          if (path.charAt(i) < '0' || path.charAt(i) > '9') {
+          if (!Character.isDigit(path.charAt(i))) {
             return false;
           }
         }
@@ -87,11 +87,14 @@ public class DeviceInfo {
             stream.read(buffer);
             int endIndex = 0;
             //Trim the first number out of the byte buffer.
-            while (buffer[endIndex] >= '0' && buffer[endIndex] <= '9'
-                && endIndex < buffer.length) endIndex++;
+            while (Character.isDigit(buffer[endIndex]) && endIndex < buffer.length) {
+              endIndex++;
+            }
             String str = new String(buffer, 0, endIndex);
             Integer freqBound = Integer.parseInt(str);
-            if (freqBound > maxFreq) maxFreq = freqBound;
+            if (freqBound > maxFreq) {
+              maxFreq = freqBound;
+            }
           } catch (NumberFormatException e) {
             //Fall through and use /proc/cpuinfo.
           } finally {
@@ -193,10 +196,10 @@ public class DeviceInfo {
    */
   private static int extractValue(byte[] buffer, int index) {
     while (index < buffer.length && buffer[index] != '\n') {
-      if (buffer[index] >= '0' && buffer[index] <= '9') {
+      if (Character.isDigit(buffer[index])) {
         int start = index;
         index++;
-        while (index < buffer.length && buffer[index] >= '0' && buffer[index] <= '9') {
+        while (index < buffer.length && Character.isDigit(buffer[index])) {
           index++;
         }
         String str = new String(buffer, 0, start, index - start);
