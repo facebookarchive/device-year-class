@@ -23,7 +23,7 @@ public class YearClass {
   public static final int CLASS_2013 = 2013;
   public static final int CLASS_2014 = 2014;
 
-  private static final long MB = 1024 * 1024;
+  private static final long MB = 1048576l;
   private static final int MHZ_IN_KHZ = 1000;
 
   private volatile static Integer mYearCategory;
