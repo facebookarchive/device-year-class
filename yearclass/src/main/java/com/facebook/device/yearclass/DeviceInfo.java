@@ -27,7 +27,9 @@ public class DeviceInfo {
   public static final int DEVICEINFO_UNKNOWN = -1;
 
   /**
-   * Reads the number of CPU cores from {@code /sys/devices/system/cpu/}.
+   * Reads the number of CPU cores from the first available information from
+   * {@code /sys/devices/system/cpu/possible}, {@code /sys/devices/system/cpu/present},
+   * then {@code /sys/devices/system/cpu/}.
    *
    * @return Number of CPU cores in the phone, or DEVICEINFO_UKNOWN = -1 in the event of an error.
    */
@@ -41,13 +43,52 @@ public class DeviceInfo {
     }
     int cores;
     try {
-      cores = new File("/sys/devices/system/cpu/").listFiles(CPU_FILTER).length;
+      cores = getCoresFromFileInfo("/sys/devices/system/cpu/possible");
+      if (cores == DEVICEINFO_UNKNOWN) {
+        cores = getCoresFromFileInfo("/sys/devices/system/cpu/present");
+      }
+      if (cores == DEVICEINFO_UNKNOWN) {
+        cores = getCoresFromCPUFileList();
+      }
     } catch (SecurityException e) {
       cores = DEVICEINFO_UNKNOWN;
     } catch (NullPointerException e) {
       cores = DEVICEINFO_UNKNOWN;
     }
     return cores;
+  }
+
+  /**
+   * Tries to read file contents from the file location to determine the number of cores on device.
+   * @param fileLocation The location of the file with CPU information
+   * @return Number of CPU cores in the phone, or DEVICEINFO_UKNOWN = -1 in the event of an error.
+   */
+  private static int getCoresFromFileInfo(String fileLocation) {
+    try {
+      InputStream is = new FileInputStream(fileLocation);
+      BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+      String fileContents = buf.readLine();
+      return getCoresFromFileString(fileContents);
+    } catch (IOException e) {
+      return DEVICEINFO_UNKNOWN;
+    }
+  }
+
+  /**
+   * Converts from a CPU core information format to number of cores.
+   * @param str The CPU core information string, in the format of "0-N"
+   * @return The number of cores represented by this string
+   */
+  static int getCoresFromFileString(String str) {
+    if (str == null || !str.matches("0-[\\d]+$")) {
+      return DEVICEINFO_UNKNOWN;
+    }
+    int cores = Integer.valueOf(str.substring(2)) + 1;
+    return cores;
+  }
+
+  private static int getCoresFromCPUFileList() {
+    return new File("/sys/devices/system/cpu/").listFiles(CPU_FILTER).length;
   }
 
   private static final FileFilter CPU_FILTER = new FileFilter() {
