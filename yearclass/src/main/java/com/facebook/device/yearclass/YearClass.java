@@ -64,15 +64,15 @@ public class YearClass {
       return DeviceInfo.getNumberOfCPUCores() <= 1 ? CLASS_2009 : CLASS_2010;
     }
     if (totalRam <= 1024 * MB) {
-      return DeviceInfo.getCPUMaxFreqKHz() < 1280 * MHZ_IN_KHZ ? CLASS_2011 : CLASS_2012;
+      return DeviceInfo.getCPUMaxFreqKHz() < 1300 * MHZ_IN_KHZ ? CLASS_2011 : CLASS_2012;
     }
-    if (totalRam < 1536 * MB) {
-      return DeviceInfo.getCPUMaxFreqKHz() < 1780 * MHZ_IN_KHZ ? CLASS_2012 : CLASS_2013;
+    if (totalRam <= 1536 * MB) {
+      return DeviceInfo.getCPUMaxFreqKHz() < 1800 * MHZ_IN_KHZ ? CLASS_2012 : CLASS_2013;
     }
     if (totalRam <= 2048 * MB) {
       return CLASS_2013;
     }
-    return totalRam < 3 * 1024 * MB ? CLASS_2014 : CLASS_2015;
+    return totalRam <= 3 * 1024 * MB ? CLASS_2014 : CLASS_2015;
   }
 
   /**
