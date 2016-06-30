@@ -7,10 +7,10 @@
  */
 package com.facebook.device.yearclass;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Collections;
-
-import android.content.Context;
 
 public class YearClass {
   // Year definitions
@@ -22,6 +22,7 @@ public class YearClass {
   public static final int CLASS_2012 = 2012;
   public static final int CLASS_2013 = 2013;
   public static final int CLASS_2014 = 2014;
+  public static final int CLASS_2015 = 2015;
 
   private static final long MB = 1024 * 1024;
   private static final int MHZ_IN_KHZ = 1000;
@@ -40,7 +41,7 @@ public class YearClass {
     if (mYearCategory == null) {
       synchronized(YearClass.class) {
         if (mYearCategory == null) {
-          mYearCategory = categorizeByYear(c);
+          mYearCategory = categorizeByYear2016Method(c);
         }
       }
     }
@@ -53,6 +54,27 @@ public class YearClass {
     }
   }
 
+  private static int categorizeByYear2016Method(Context c) {
+    long totalRam = DeviceInfo.getTotalMemory(c);
+    if (totalRam == DeviceInfo.DEVICEINFO_UNKNOWN) {
+      return categorizeByYear2014Method(c);
+    }
+
+    if (totalRam <= 768 * MB) {
+      return DeviceInfo.getNumberOfCPUCores() <= 1 ? CLASS_2009 : CLASS_2010;
+    }
+    if (totalRam <= 1024 * MB) {
+      return DeviceInfo.getCPUMaxFreqKHz() < 1280 * MHZ_IN_KHZ ? CLASS_2011 : CLASS_2012;
+    }
+    if (totalRam < 1536 * MB) {
+      return DeviceInfo.getCPUMaxFreqKHz() < 1780 * MHZ_IN_KHZ ? CLASS_2012 : CLASS_2013;
+    }
+    if (totalRam <= 2048 * MB) {
+      return CLASS_2013;
+    }
+    return totalRam < 3 * 1024 * MB ? CLASS_2014 : CLASS_2015;
+  }
+
   /**
    * Calculates the "best-in-class year" of the device. This represents the top-end or flagship
    * devices of that year, not the actual release year of the phone. For example, the Galaxy Duos
@@ -61,7 +83,7 @@ public class YearClass {
    *
    * @return The year when this device would have been considered top-of-the-line.
    */
-  private static int categorizeByYear(Context c) {
+  private static int categorizeByYear2014Method(Context c) {
     ArrayList<Integer> componentYears = new ArrayList<Integer>();
     conditionallyAdd(componentYears, getNumCoresYear());
     conditionallyAdd(componentYears, getClockSpeedYear());

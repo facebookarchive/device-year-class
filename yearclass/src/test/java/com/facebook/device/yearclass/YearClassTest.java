@@ -32,6 +32,22 @@ public class YearClassTest {
 
   @PrepareForTest(DeviceInfo.class)
   @Test
+  public void testGetYearCategoryGalaxyJ1() {
+    // CPU, frequency, RAM, and YearClass values from Samsung Galaxy J1.
+    int yearClass = getYearClass(2, 1248000, 768L*1024*1024);
+    assertEquals(YearClass.CLASS_2010, yearClass);
+  }
+
+  @PrepareForTest(DeviceInfo.class)
+  @Test
+  public void testGetYearCategoryP8lite() {
+    // CPU, frequency, RAM, and YearClass values from Huawei P8lite.
+    int yearClass = getYearClass(8, 1200000, 2048L*1024*1024);
+    assertEquals(YearClass.CLASS_2013, yearClass);
+  }
+
+  @PrepareForTest(DeviceInfo.class)
+  @Test
   public void testEmptyCase() {
     int yearClass = getYearClass(DeviceInfo.DEVICEINFO_UNKNOWN,
         DeviceInfo.DEVICEINFO_UNKNOWN, DeviceInfo.DEVICEINFO_UNKNOWN);
