@@ -54,6 +54,12 @@ public class YearClass {
     }
   }
 
+  /**
+   * This formulation of year class smooths out the distribution of devices in the field
+   * in early 2016 so that the buckets are a bit more even in size and performance metrics
+   * (specifically app startup time, scrolling perf, animations) are more uniform within
+   * the buckets than with the 2014 calculations.
+   */
   private static int categorizeByYear2016Method(Context c) {
     long totalRam = DeviceInfo.getTotalMemory(c);
     if (totalRam == DeviceInfo.DEVICEINFO_UNKNOWN) {
