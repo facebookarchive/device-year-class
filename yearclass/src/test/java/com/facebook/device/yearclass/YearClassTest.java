@@ -15,7 +15,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.*;
 
@@ -101,7 +101,7 @@ public class YearClassTest {
     mockStatic(DeviceInfo.class);
     when(DeviceInfo.getNumberOfCPUCores()).thenReturn(numCores);
     when(DeviceInfo.getCPUMaxFreqKHz()).thenReturn(maxFreqKHz);
-    when(DeviceInfo.getTotalMemory((Context) anyObject())).thenReturn(memoryBytes);
+    when(DeviceInfo.getTotalMemory((Context) any())).thenReturn(memoryBytes);
     int yearClass = YearClass.get(null);
     PowerMockito.verifyStatic();
 
