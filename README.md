@@ -7,33 +7,32 @@ application behavior based on the capabilities of the phone's hardware.
 
 ![Most Popular Devices by Year Class](https://github.com/facebook/device-year-class/raw/master/docs/images/popular_devices_by_year_class.png)
 
-Mappings as of this writing (RAM is a ceiling):
+Mappings as of this writing (ceilings, aside from the final row):
 
-| RAM | condition | Year Class |
-|----:|----------:|-----------:|
-|768MB| 1 core    | 2009 |
-|     | 2+ cores  | 2010 |
-|  1GB| <1.3GHz   | 2011 |
-|     | 1.3GHz+   | 2012 |
-|1.5GB| <1.8GHz   | 2012 |
-|     | 1.8GHz+   | 2013 |
-|  2GB|           | 2013 |
-|  3GB|           | 2014 |
-| more|           | 2015 |
+|Year|	Cores|	Clock |	RAM  |
+|---:|------:|-------:|-----:|
+|2008|	1    |	528MHz|	192MB|
+|2009|	n/a  |	600MHz|	290MB|
+|2010|	n/a  |	1.0GHz|	512MB|
+|2011|	2    |	1.2GHz|	  1GB|
+|2012|	4    |	1.5GHz|	1.5GB|
+|2013|	n/a  |	2.0GHz|	  2GB|
+|2014|	n/a  |   >2GHz|	 >2GB|
+
 
 ## Integration
 
 ### Download
 Download [the latest JARs](https://github.com/facebook/device-year-class/releases/latest) or grab via Gradle:
 ```groovy
-compile 'com.facebook.device.yearclass:yearclass:2.0.0'
+compile 'com.facebook.device.yearclass:yearclass:1.0.1'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.facebook.device.yearclass</groupId>
   <artifactId>yearclass</artifactId>
-  <version>2.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
