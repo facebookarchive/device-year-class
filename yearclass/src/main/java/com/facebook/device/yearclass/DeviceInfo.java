@@ -68,6 +68,7 @@ public class DeviceInfo {
       InputStream is = new FileInputStream(fileLocation);
       BufferedReader buf = new BufferedReader(new InputStreamReader(is));
       String fileContents = buf.readLine();
+      buf.close();
       return getCoresFromFileString(fileContents);
     } catch (IOException e) {
       return DEVICEINFO_UNKNOWN;
