@@ -59,7 +59,7 @@ if (year >= 2013) {
 See the `yearclass-sample` project for more details.
 
 ## Improve Device Year Class!
-See the CONTRIBUTING.md file for how to help out.
+See the [CONTRIBUTING.md](https://github.com/facebook/device-year-class/blob/master/CONTRIBUTING.md) file for how to help out.
 
 ## License
-Device Year Class is BSD-licensed. We also provide an additional patent grant.
+Device Year Class is [BSD-licensed](https://github.com/facebook/device-year-class/blob/master/LICENSE). We also provide an additional patent grant.
