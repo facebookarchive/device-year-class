@@ -64,14 +64,23 @@ public class DeviceInfo {
    * @return Number of CPU cores in the phone, or DEVICEINFO_UKNOWN = -1 in the event of an error.
    */
   private static int getCoresFromFileInfo(String fileLocation) {
+    InputStream is = null;
     try {
-      InputStream is = new FileInputStream(fileLocation);
+      is = new FileInputStream(fileLocation);
       BufferedReader buf = new BufferedReader(new InputStreamReader(is));
       String fileContents = buf.readLine();
       buf.close();
       return getCoresFromFileString(fileContents);
     } catch (IOException e) {
       return DEVICEINFO_UNKNOWN;
+    } finally {
+      if (is != null) {
+        try {
+          is.close();
+        } catch (IOException e) {
+            // Do nothing.
+        }
+      }
     }
   }
 
