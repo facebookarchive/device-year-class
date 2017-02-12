@@ -131,7 +131,7 @@ public class DeviceInfo {
         String filename =
             "/sys/devices/system/cpu/cpu" + i + "/cpufreq/cpuinfo_max_freq";
         File cpuInfoMaxFreqFile = new File(filename);
-        if (cpuInfoMaxFreqFile.exists()) {
+        if (cpuInfoMaxFreqFile.exists() && cpuInfoMaxFreqFile.canRead()) {
           byte[] buffer = new byte[128];
           FileInputStream stream = new FileInputStream(cpuInfoMaxFreqFile);
           try {
