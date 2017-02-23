@@ -27,7 +27,9 @@ public class DeviceInfo {
   public static final int DEVICEINFO_UNKNOWN = -1;
 
   /**
-   * Reads the number of CPU cores from {@code /sys/devices/system/cpu/}.
+   * Reads the number of CPU cores from the first available information from
+   * {@code /sys/devices/system/cpu/possible}, {@code /sys/devices/system/cpu/present},
+   * then {@code /sys/devices/system/cpu/}.
    *
    * @return Number of CPU cores in the phone, or DEVICEINFO_UKNOWN = -1 in the event of an error.
    */
@@ -41,13 +43,62 @@ public class DeviceInfo {
     }
     int cores;
     try {
-      cores = new File("/sys/devices/system/cpu/").listFiles(CPU_FILTER).length;
+      cores = getCoresFromFileInfo("/sys/devices/system/cpu/possible");
+      if (cores == DEVICEINFO_UNKNOWN) {
+        cores = getCoresFromFileInfo("/sys/devices/system/cpu/present");
+      }
+      if (cores == DEVICEINFO_UNKNOWN) {
+        cores = getCoresFromCPUFileList();
+      }
     } catch (SecurityException e) {
       cores = DEVICEINFO_UNKNOWN;
     } catch (NullPointerException e) {
       cores = DEVICEINFO_UNKNOWN;
     }
     return cores;
+  }
+
+  /**
+   * Tries to read file contents from the file location to determine the number of cores on device.
+   * @param fileLocation The location of the file with CPU information
+   * @return Number of CPU cores in the phone, or DEVICEINFO_UKNOWN = -1 in the event of an error.
+   */
+  private static int getCoresFromFileInfo(String fileLocation) {
+    InputStream is = null;
+    try {
+      is = new FileInputStream(fileLocation);
+      BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+      String fileContents = buf.readLine();
+      buf.close();
+      return getCoresFromFileString(fileContents);
+    } catch (IOException e) {
+      return DEVICEINFO_UNKNOWN;
+    } finally {
+      if (is != null) {
+        try {
+          is.close();
+        } catch (IOException e) {
+            // Do nothing.
+        }
+      }
+    }
+  }
+
+  /**
+   * Converts from a CPU core information format to number of cores.
+   * @param str The CPU core information string, in the format of "0-N"
+   * @return The number of cores represented by this string
+   */
+  static int getCoresFromFileString(String str) {
+    if (str == null || !str.matches("0-[\\d]+$")) {
+      return DEVICEINFO_UNKNOWN;
+    }
+    int cores = Integer.valueOf(str.substring(2)) + 1;
+    return cores;
+  }
+
+  private static int getCoresFromCPUFileList() {
+    return new File("/sys/devices/system/cpu/").listFiles(CPU_FILTER).length;
   }
 
   private static final FileFilter CPU_FILTER = new FileFilter() {
@@ -57,7 +108,7 @@ public class DeviceInfo {
       //regex is slow, so checking char by char.
       if (path.startsWith("cpu")) {
         for (int i = 3; i < path.length(); i++) {
-          if (path.charAt(i) < '0' || path.charAt(i) > '9') {
+          if (!Character.isDigit(path.charAt(i))) {
             return false;
           }
         }
@@ -80,18 +131,21 @@ public class DeviceInfo {
         String filename =
             "/sys/devices/system/cpu/cpu" + i + "/cpufreq/cpuinfo_max_freq";
         File cpuInfoMaxFreqFile = new File(filename);
-        if (cpuInfoMaxFreqFile.exists()) {
+        if (cpuInfoMaxFreqFile.exists() && cpuInfoMaxFreqFile.canRead()) {
           byte[] buffer = new byte[128];
           FileInputStream stream = new FileInputStream(cpuInfoMaxFreqFile);
           try {
             stream.read(buffer);
             int endIndex = 0;
             //Trim the first number out of the byte buffer.
-            while (buffer[endIndex] >= '0' && buffer[endIndex] <= '9'
-                && endIndex < buffer.length) endIndex++;
+            while (Character.isDigit(buffer[endIndex]) && endIndex < buffer.length) {
+              endIndex++;
+            }
             String str = new String(buffer, 0, endIndex);
             Integer freqBound = Integer.parseInt(str);
-            if (freqBound > maxFreq) maxFreq = freqBound;
+            if (freqBound > maxFreq) {
+              maxFreq = freqBound;
+            }
           } catch (NumberFormatException e) {
             //Fall through and use /proc/cpuinfo.
           } finally {
@@ -193,10 +247,10 @@ public class DeviceInfo {
    */
   private static int extractValue(byte[] buffer, int index) {
     while (index < buffer.length && buffer[index] != '\n') {
-      if (buffer[index] >= '0' && buffer[index] <= '9') {
+      if (Character.isDigit(buffer[index])) {
         int start = index;
         index++;
-        while (index < buffer.length && buffer[index] >= '0' && buffer[index] <= '9') {
+        while (index < buffer.length && Character.isDigit(buffer[index])) {
           index++;
         }
         String str = new String(buffer, 0, start, index - start);

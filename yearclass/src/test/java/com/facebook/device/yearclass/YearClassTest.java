@@ -15,7 +15,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.*;
 
@@ -24,9 +24,41 @@ public class YearClassTest {
 
   @PrepareForTest(DeviceInfo.class)
   @Test
-  public void testGetYearCategory() {
+  public void testGetYearCategoryS7() {
+    // CPU, frequency, RAM, and YearClass values from Samsung Galaxy S7 (global edition).
+    int yearClass = getYearClass(8, 2600000, 3663L * 1024 * 1024);
+    assertEquals(YearClass.CLASS_2015, yearClass);
+  }
+
+  @PrepareForTest(DeviceInfo.class)
+  @Test
+  public void testGetYearCategoryG4() {
+    // CPU, frequency, RAM, and YearClass values from LG G4.
+    int yearClass = getYearClass(6, 1824000, 2778L * 1024 * 1024);
+    assertEquals(YearClass.CLASS_2014, yearClass);
+  }
+
+  @PrepareForTest(DeviceInfo.class)
+  @Test
+  public void testGetYearCategoryS5() {
     // CPU, frequency, RAM, and YearClass values from Samsung Galaxy S5.
     int yearClass = getYearClass(4, 2457600, 1946939392L);
+    assertEquals(YearClass.CLASS_2013, yearClass);
+  }
+
+  @PrepareForTest(DeviceInfo.class)
+  @Test
+  public void testGetYearCategoryGalaxyJ1() {
+    // CPU, frequency, RAM, and YearClass values from Samsung Galaxy J1.
+    int yearClass = getYearClass(2, 1248000, 716L * 1024 * 1024);
+    assertEquals(YearClass.CLASS_2010, yearClass);
+  }
+
+  @PrepareForTest(DeviceInfo.class)
+  @Test
+  public void testGetYearCategoryP8lite() {
+    // CPU, frequency, RAM, and YearClass values from Huawei P8lite.
+    int yearClass = getYearClass(8, 1200000, 1858L * 1024 * 1024);
     assertEquals(YearClass.CLASS_2013, yearClass);
   }
 
@@ -69,7 +101,7 @@ public class YearClassTest {
     mockStatic(DeviceInfo.class);
     when(DeviceInfo.getNumberOfCPUCores()).thenReturn(numCores);
     when(DeviceInfo.getCPUMaxFreqKHz()).thenReturn(maxFreqKHz);
-    when(DeviceInfo.getTotalMemory((Context) anyObject())).thenReturn(memoryBytes);
+    when(DeviceInfo.getTotalMemory((Context) any())).thenReturn(memoryBytes);
     int yearClass = YearClass.get(null);
     PowerMockito.verifyStatic();
 
