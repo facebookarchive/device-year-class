@@ -19,7 +19,8 @@ Mappings as of this writing (RAM is a ceiling):
 |     | 1.8GHz+   | 2013 |
 |  2GB|           | 2013 |
 |  3GB|           | 2014 |
-| more|           | 2015 |
+|  5GB|           | 2015 |
+| more|           | 2016 |
 
 ## Integration
 
