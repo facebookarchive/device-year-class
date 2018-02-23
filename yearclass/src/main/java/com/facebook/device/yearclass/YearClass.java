@@ -30,6 +30,12 @@ public class YearClass {
 
   private volatile static Integer mYearCategory;
 
+  private static final String UNKNOWN = "UNKNOWN";
+  private static final String SINGLE_CORE = "SINGLE CORE";
+  private static final String DUAL_CORE = "DUAL CORE";
+  private static final String TRIPLE_CORE = "TRIPLE CORE";
+  private static final String QUAD_CORE = "QUAD CORE";
+
   /**
    * Entry Point of YearClass. Extracts YearClass variable with memoizing.
    * Example usage:
@@ -133,6 +139,19 @@ public class YearClass {
     if (cores == 1) return CLASS_2008;
     if (cores <= 3) return CLASS_2011;
     return CLASS_2012;
+  }
+
+  /**
+   * Evaluates the processor's type
+   * @return a String which contains the processor's name
+   */
+  public static String getCoreDescription() {
+    int cores = DeviceInfo.getNumberOfCPUCores();
+    if (cores < 1) return UNKNOWN;
+    if (cores == 1) return SINGLE_CORE;
+    if (cores == 2) return DUAL_CORE;
+    if (cores == 3) return TRIPLE_CORE;
+    return QUAD_CORE;
   }
 
   /**
