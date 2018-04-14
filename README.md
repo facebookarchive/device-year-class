@@ -27,14 +27,14 @@ Mappings as of this writing (RAM is a ceiling):
 ### Download
 Download [the latest JARs](https://github.com/facebook/device-year-class/releases/latest) or grab via Gradle:
 ```groovy
-compile 'com.facebook.device.yearclass:yearclass:2.0.1'
+compile 'com.facebook.device.yearclass:yearclass:2.1.0'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.facebook.device.yearclass</groupId>
   <artifactId>yearclass</artifactId>
-  <version>2.0.1</version>
+  <version>2.1.0</version>
 </dependency>
 ```
 
