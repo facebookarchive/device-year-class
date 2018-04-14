@@ -1,7 +1,13 @@
 Change Log
 ==========
 
+## Version 2.1.0
+
+ * Added Year Class 2016 to classification model.
+ 
 ## Version 2.0.0
+
+_2018-04-13_
 
  * New classification model.
 
