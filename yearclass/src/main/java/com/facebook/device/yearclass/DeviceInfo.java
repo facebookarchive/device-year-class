@@ -31,7 +31,7 @@ public class DeviceInfo {
    * {@code /sys/devices/system/cpu/possible}, {@code /sys/devices/system/cpu/present},
    * then {@code /sys/devices/system/cpu/}.
    *
-   * @return Number of CPU cores in the phone, or DEVICEINFO_UKNOWN = -1 in the event of an error.
+   * @return Number of CPU cores in the phone, or DEVICEINFO_UNKNOWN = -1 in the event of an error.
    */
   public static int getNumberOfCPUCores() {
     if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
@@ -61,7 +61,7 @@ public class DeviceInfo {
   /**
    * Tries to read file contents from the file location to determine the number of cores on device.
    * @param fileLocation The location of the file with CPU information
-   * @return Number of CPU cores in the phone, or DEVICEINFO_UKNOWN = -1 in the event of an error.
+   * @return Number of CPU cores in the phone, or DEVICEINFO_UNKNOWN = -1 in the event of an error.
    */
   private static int getCoresFromFileInfo(String fileLocation) {
     InputStream is = null;
