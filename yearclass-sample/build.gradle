@@ -1,22 +1,17 @@
 apply plugin: 'com.android.application'
 
-repositories {
-    jcenter()
-}
-
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
-
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.facebook.device.yearclass.sample"
-        minSdkVersion 11
-        targetSdkVersion 25
+        minSdkVersion 14
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
 }
 
 dependencies {
-    compile project(':yearclass')
+    implementation project(':yearclass')
 }

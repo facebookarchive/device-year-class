@@ -34,13 +34,6 @@ public class DeviceInfo {
    * @return Number of CPU cores in the phone, or DEVICEINFO_UKNOWN = -1 in the event of an error.
    */
   public static int getNumberOfCPUCores() {
-    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-      // Gingerbread doesn't support giving a single application access to both cores, but a
-      // handful of devices (Atrix 4G and Droid X2 for example) were released with a dual-core
-      // chipset and Gingerbread; that can let an app in the background run without impacting
-      // the foreground application. But for our purposes, it makes them single core.
-      return 1;
-    }
     int cores;
     try {
       cores = getCoresFromFileInfo("/sys/devices/system/cpu/possible");
