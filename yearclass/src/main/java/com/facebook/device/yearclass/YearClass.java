@@ -8,7 +8,10 @@
 package com.facebook.device.yearclass;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -28,6 +31,13 @@ public class YearClass {
   private static final long MB = 1024 * 1024;
   private static final int MHZ_IN_KHZ = 1000;
 
+  @Retention(RetentionPolicy.SOURCE)
+  @IntDef({CLASS_UNKNOWN, CLASS_2008, CLASS_2009,
+        CLASS_2010, CLASS_2011, CLASS_2012,
+        CLASS_2013, CLASS_2014, CLASS_2015})
+  public @interface Class {
+  }
+
   private volatile static Integer mYearCategory;
 
   /**
@@ -38,6 +48,7 @@ public class YearClass {
    *   int yearClass = YearClass.get(context);
    * </pre>
    */
+  @Class
   public static int get(Context c) {
     if (mYearCategory == null) {
       synchronized(YearClass.class) {
@@ -49,7 +60,7 @@ public class YearClass {
     return mYearCategory;
   }
 
-  private static void conditionallyAdd(ArrayList<Integer> list, int value) {
+  private static void conditionallyAdd(ArrayList<Integer> list, @Class int value) {
     if (value != CLASS_UNKNOWN) {
       list.add(value);
     }
@@ -61,7 +72,7 @@ public class YearClass {
    * (specifically app startup time, scrolling perf, animations) are more uniform within
    * the buckets than with the 2014 calculations.
    */
-  private static int categorizeByYear2016Method(Context c) {
+  private static @Class int categorizeByYear2016Method(Context c) {
     long totalRam = DeviceInfo.getTotalMemory(c);
     if (totalRam == DeviceInfo.DEVICEINFO_UNKNOWN) {
       return categorizeByYear2014Method(c);
@@ -93,8 +104,10 @@ public class YearClass {
    *
    * @return The year when this device would have been considered top-of-the-line.
    */
+  @SuppressWarnings("WrongConstant")
+  @Class
   private static int categorizeByYear2014Method(Context c) {
-    ArrayList<Integer> componentYears = new ArrayList<Integer>();
+    ArrayList<Integer> componentYears = new ArrayList<>();
     conditionallyAdd(componentYears, getNumCoresYear());
     conditionallyAdd(componentYears, getClockSpeedYear());
     conditionallyAdd(componentYears, getRamYear(c));
@@ -127,6 +140,7 @@ public class YearClass {
    *
    * @return the year in which top-of-the-line phones had the same number of processors as this phone.
    */
+  @Class
   private static int getNumCoresYear() {
     int cores = DeviceInfo.getNumberOfCPUCores();
     if (cores < 1) return CLASS_UNKNOWN;
@@ -155,6 +169,7 @@ public class YearClass {
    *
    * @return the year in which top-of-the-line phones had the same clock speed.
    */
+  @Class
   private static int getClockSpeedYear() {
     long clockSpeedKHz = DeviceInfo.getCPUMaxFreqKHz();
     if (clockSpeedKHz == DeviceInfo.DEVICEINFO_UNKNOWN) return CLASS_UNKNOWN;
@@ -189,6 +204,7 @@ public class YearClass {
    *
    * @return the year in which top-of-the-line phones had the same amount of RAM as this phone.
    */
+  @Class
   private static int getRamYear(Context c) {
     long totalRam = DeviceInfo.getTotalMemory(c);
     if (totalRam <= 0) return CLASS_UNKNOWN;
