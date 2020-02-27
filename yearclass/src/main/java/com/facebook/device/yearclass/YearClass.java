@@ -71,8 +71,7 @@ public class YearClass {
    * (specifically app startup time, scrolling perf, animations) are more uniform within
    * the buckets than with the 2014 calculations.
    */
-  @Class
-  private static int categorizeByYear2016Method(Context c) {
+  private static @Class int categorizeByYear2016Method(Context c) {
     long totalRam = DeviceInfo.getTotalMemory(c);
     if (totalRam == DeviceInfo.DEVICEINFO_UNKNOWN) {
       return categorizeByYear2014Method(c);
