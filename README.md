@@ -1,5 +1,7 @@
 # ![Devices by Year Class](https://github.com/facebook/device-year-class/raw/master/docs/images/logo_trans_square.png) Device Year Class
 
+[![ci][1]][2]
+
 Device Year Class is an Android library that implements a simple algorithm that maps
 a device's RAM, CPU cores, and clock speed to the year where those combination
 of specs were considered high end. This allows a developer to easily modify
@@ -65,3 +67,6 @@ See the [CONTRIBUTING.md](https://github.com/facebook/device-year-class/blob/mas
 
 ## License
 Device Year Class is [BSD-licensed](https://github.com/facebook/device-year-class/blob/master/LICENSE). We also provide an additional patent grant.
+
+[1]: https://github.com/facebook/device-year-class/workflows/ci/badge.svg
+[2]: https://github.com/facebook/device-year-class/actions

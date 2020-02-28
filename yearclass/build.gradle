@@ -1,32 +1,21 @@
 apply plugin: 'com.android.library'
 
-repositories {
-    jcenter()
-}
-
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
-
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 25
+        minSdkVersion 14
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.0.21-beta'
-    testCompile ('org.powermock:powermock-api-mockito:1.6.3') {
-        exclude module: 'hamcrest-core'
-        exclude module: 'objenesis'
-    }
-    testCompile ('org.powermock:powermock-module-junit4:1.6.3') {
-        exclude module: 'hamcrest-core'
-        exclude module: 'objenesis'
-    }
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.0.21-beta'
+    testImplementation 'org.powermock:powermock-api-mockito:1.6.3'
+    testImplementation 'org.powermock:powermock-module-junit4:1.6.3'
 }
 
 apply from: rootProject.file('release.gradle')
